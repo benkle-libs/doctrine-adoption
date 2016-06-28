@@ -32,6 +32,7 @@ class Collector
      * @param string $for Class name of the adopting entity
      * @param string $adoptee Class name of the adopted entity
      * @param string $discriminator Name for the discriminator column
+     * @return $this
      */
     public function addAdoptee($for, $adoptee, $discriminator)
     {
@@ -39,6 +40,7 @@ class Collector
             $this->entities[$for] = [];
         }
         $this->entities[$for][$discriminator] = $adoptee;
+        return $this;
     }
 
     /**

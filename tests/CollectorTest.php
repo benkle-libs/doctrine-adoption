@@ -16,39 +16,34 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+
 namespace Benkle\DoctrineAdoption;
 
-use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 
-/**
- * Class MetadataListener
- * This class is used to inject adoptees into the discriminator map.
- * @package Benkle\DoctrineAdoption
- */
-class MetadataListener
+use Doctrine\ORM\Events;
+
+class CollectorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Collector */
-    private $collector = null;
-
-    /**
-     * MetadataListener constructor.
-     * @param Collector $collector
-     */
-    public function __construct(Collector $collector)
+    public function testAddAdoptee()
     {
-        $this->collector = $collector;
+        $collector = new Collector();
+        $this->assertEquals($collector, $collector->addAdoptee('parent', 'child', 'name'));
     }
 
-    /**
-     * Handle LoadClassMetadataEvents to inject adoptees.
-     * @param LoadClassMetadataEventArgs $class
-     */
-    public function loadClassMetadata(LoadClassMetadataEventArgs $class)
+    public function testGetAdoptees()
     {
-        $metaData = $class->getClassMetadata();
-        $adoptees = $this->collector->getAdoptees($metaData->name);
-        foreach ($adoptees as $discriminator => $adoptee) {
-            $metaData->discriminatorMap[$discriminator] = $adoptee;
-        }
+        $collector = new Collector();
+        $this->assertEquals([], $collector->getAdoptees('parent'));
+
+        $collector->addAdoptee('parent', 'child', 'name');
+        $this->assertEquals(['name' => 'child'], $collector->getAdoptees('parent'));
+
+        $collector->addAdoptee('parent', 'child2', 'name2');
+        $this->assertEquals(['name' => 'child', 'name2' => 'child2'], $collector->getAdoptees('parent'));
+
+        $collector->addAdoptee('parent', 'child2', 'name');
+        $this->assertEquals(['name' => 'child2', 'name2' => 'child2'], $collector->getAdoptees('parent'));
+
+        $this->assertEquals([], $collector->getAdoptees('parent2'));
     }
 }
