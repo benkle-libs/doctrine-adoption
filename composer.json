@@ -1,0 +1,25 @@
+{
+    "name": "benkle/doctrine-adoption",
+    "description": "A small set of classes to make doctrines inheritance mapping more useful",
+    "type": "library",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "require": {
+        "php": ">= 5.6",
+        "doctrine/orm": "^2.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Benkle\\DoctrineAdoption\\": "src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Benjamin Kleiner",
+            "email": "bizzl@users.sourceforge.net"
+        }
+    ]
+}
