@@ -1,2 +1,14 @@
-# doctrine-adoption
-A small set of classes to make doctrines inheritance mapping more useful
+doctrine-adoption
+=================
+
+A small set of classes to make doctrines inheritance mapping more useful.
+
+Installation
+------------
+
+`composer require benkle/doctrine-adoption`
+
+Usage
+-----
+
+

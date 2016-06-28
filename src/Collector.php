@@ -18,20 +18,35 @@
 
 namespace Benkle\DoctrineAdoption;
 
-
+/**
+ * Class Collector
+ * This class collects and manages adoptees.
+ * @package Benkle\DoctrineAdoption
+ */
 class Collector
 {
     private $entities = [];
 
-    public function addEntity($for, $entity, $discriminator)
+    /**
+     * Add adoptee to the collector.
+     * @param string $for Class name of the adopting entity
+     * @param string $adoptee Class name of the adopted entity
+     * @param string $discriminator Name for the discriminator column
+     */
+    public function addAdoptee($for, $adoptee, $discriminator)
     {
         if (!isset($this->entities[$for]) || !is_array($this->entities[$for])) {
             $this->entities[$for] = [];
         }
-        $this->entities[$for][$discriminator] = $entity;
+        $this->entities[$for][$discriminator] = $adoptee;
     }
 
-    public function getEntities($for)
+    /**
+     * Get all adoptees for an entity.
+     * @param string $for Class name of the adopting entity
+     * @return string[]
+     */
+    public function getAdoptees($for)
     {
         return isset($this->entities[$for]) ? $this->entities[$for] : [];
     }

@@ -20,6 +20,11 @@ namespace Benkle\DoctrineAdoption;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 
+/**
+ * Class MetadataListener
+ * This class is used to inject adoptees into the discriminator map.
+ * @package Benkle\DoctrineAdoption
+ */
 class MetadataListener
 {
     /** @var Collector */
@@ -34,12 +39,16 @@ class MetadataListener
         $this->adoptionManager = $adoptionManager;
     }
 
+    /**
+     * Handle LoadClassMetadataEvents to inject adoptees.
+     * @param LoadClassMetadataEventArgs $class
+     */
     public function loadClassMetadata(LoadClassMetadataEventArgs $class)
     {
         $metaData = $class->getClassMetadata();
-        $taggedEntities = $this->adoptionManager->getEntities($metaData->name);
-        foreach ($taggedEntities as $discriminator => $taggedEntity) {
-            $metaData->discriminatorMap[$discriminator] = $taggedEntity;
+        $adoptees = $this->adoptionManager->getAdoptees($metaData->name);
+        foreach ($adoptees as $discriminator => $adoptee) {
+            $metaData->discriminatorMap[$discriminator] = $adoptee;
         }
     }
 }
